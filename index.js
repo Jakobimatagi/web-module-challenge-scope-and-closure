@@ -45,6 +45,8 @@ function counterMaker() {
 
 const counter1 = counterMaker();
 
+
+
 // counter2 code
 let count = 0;
 
@@ -62,9 +64,11 @@ Use the inning function below to do the following:
 NOTE: This will be a callback function for the tasks below
 */
 
-function inning(/*Code Here*/){
-    /*Code Here*/
+function inning(){
+  return Math.floor(Math.random() * Math.floor(2));
+ 
 }
+console.log(inning());
 
 
 /* ⚾️⚾️⚾️ Task 3: finalScore() ⚾️⚾️⚾️
@@ -81,8 +85,20 @@ Use the finalScore function below to do the following:
 }
 */ 
 
-function finalScore(/*code Here*/){
-  /*Code Here*/
+function finalScore({inningCB, inningsPlayed}){
+
+  let homeScore = 0;
+  let awayScore = 0;
+
+  for(let i = 0; i < inningsPlayed; i++){
+    const currentScore = getInningScore(inningCB)
+    homeScore +=   currentScore.Home;
+    awayScore +=   currentScore.Away;
+  }
+  return {
+    Home: homeScore,
+    Away: awayScore
+  };
 }
 
 /* ⚾️⚾️⚾️ Task 4: getInningScore() ⚾️⚾️⚾️
@@ -90,9 +106,12 @@ Use the getInningScore() function below to do the following:
   1. Receive a callback function - you will pass in the inning function from task 2 as your argument 
   2. Return an object with a score for home and a score for away that populates from invoking the inning callback function */
 
-function getInningScore(/*Your Code Here */) {
-  /*Your Code Here */
-}
+  function getInningScore(inningCB) {
+    return{
+      Home: inningCB(),
+      Away: inningCB()
+    }
+  }
 
 
 /* ⚾️⚾️⚾️ Task 5: scoreboard() ⚾️⚾️⚾️
@@ -136,9 +155,20 @@ Use the scoreboard function below to do the following:
 ]  
   */
 
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
-}
+ function scoreboard(getInningScoreCB, inningCB, inningsPlayed) {
+  const recap = [];
+  let homeScore = 0;
+  let awayScore = 0;
+  for(let i = 0; i < inningsPlayed; i++){
+    const currentScore = getInningScoreCB(inningCB);
+    homeScore += currentScore.Home;
+    awayScore += currentScore.Away;
+    recap.push(`Inning ${i + 1}: Away ${currentScore.Away}: Home ${currentScore.Home}`)
+  } if(awayScore === homeScore){
+    return `This game will require extra innings: Away ${awayScore} - Home ${homeScore}`
+  }
+   return recap;
+ }
 
 
 
